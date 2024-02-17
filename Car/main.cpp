@@ -10,7 +10,7 @@ int main() {
 
 	std::cout << "In the following window the color GREEN = xAxis" << std::endl
 		<< "and the color BLUE = zAxis/gas" << std::endl
-		<< std::endl;
+		<< std::endl
 		<< "To end the programm press ESC" << std::endl;
 
 	std::string comPort;
