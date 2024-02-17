@@ -9,7 +9,9 @@ int main() {
 	bool zBigger100 = true;
 
 	std::cout << "In the following window the color GREEN = xAxis" << std::endl
-		<< "and the color BLUE = zAxis/gas" << std::endl;
+		<< "and the color BLUE = zAxis/gas" << std::endl
+		<< std::endl;
+		<< "To end the programm press ESC" << std::endl;
 
 	std::string comPort;
 	std::cout << "Enter the COM port (e.g., COM5): ";
@@ -75,7 +77,7 @@ int main() {
 	gasBar.setFillColor(sf::Color::Blue);
 	gasBar.setPosition(50, 100);  // Adjust the position as needed
 
-	while (!(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))) {
+	while (!(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) && window.isOpen()) {
 		sf::Event event;
 		while (window.pollEvent(event)) {
 			// Beenden des Programms beim Schließen des Fensters
@@ -128,7 +130,7 @@ int main() {
 			WriteFile(serialHandle, " ", 1, &bytesWritten, NULL); // Separator
 			WriteFile(serialHandle, gasStr.c_str(), gasStr.length(), &bytesWritten, NULL);
 			WriteFile(serialHandle, "\n", 1, &bytesWritten, NULL); // New line
-			std::this_thread::sleep_for(std::chrono::milliseconds(1));
+			std::this_thread::sleep_for(std::chrono::milliseconds(75));
 
 
 			xAxisBar.setSize(sf::Vector2f(xAxis, 20));
