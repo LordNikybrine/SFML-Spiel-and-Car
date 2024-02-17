@@ -8,10 +8,15 @@ int main() {
 	bool xBigger100 = true;
 	bool zBigger100 = true;
 
+	int timeouts = 0;
+
 	std::cout << "GREEN = xAxis" << std::endl
 		<< "BLUE = zAxis/gas" << std::endl
 		<< std::endl
 		<< "To end the programm close the window." << std::endl << std::endl;
+
+	std::cout << "Set timeouts for reading and writing (writing = sending): ";
+	std::cin >> timeouts;
 
 	std::string comPort;
 	std::cout << "Enter the COM port (e.g., COM5): ";
@@ -51,13 +56,13 @@ int main() {
 	serialParams.Parity = NOPARITY;
 	SetCommState(serialHandle, &serialParams);
 
-	//write und read haben 50ms timeout
+	//write und read timeouts setzten
 	COMMTIMEOUTS timeout = { 0 };
-	timeout.ReadIntervalTimeout = 50;
-	timeout.ReadTotalTimeoutConstant = 50;
-	timeout.ReadTotalTimeoutMultiplier = 50;
-	timeout.WriteTotalTimeoutConstant = 50;
-	timeout.WriteTotalTimeoutMultiplier = 10;
+	timeout.ReadIntervalTimeout = timeouts;
+	timeout.ReadTotalTimeoutConstant = timeouts;
+	timeout.ReadTotalTimeoutMultiplier = timeouts;
+	timeout.WriteTotalTimeoutConstant = timeouts;
+	timeout.WriteTotalTimeoutMultiplier = timeouts;
 
 	SetCommTimeouts(serialHandle, &timeout);
 
