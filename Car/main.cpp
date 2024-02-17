@@ -36,9 +36,9 @@ int main() {
 	std::wstring comPortWide = L"\\\\.\\" + std::wstring(comPort.begin(), comPort.end());
 
 	sf::Joystick::update();
-	if (!sf::Joystick::isConnected(0)) {
-		std::cout << "Kein Joystick verbunden!" << std::endl;
-		return 1;
+	while (!sf::Joystick::isConnected(0)) {
+		std::cout << "Kein Joystick verbunden!" << std::endl << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(2500));
 	}
 
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Joystick Input");
