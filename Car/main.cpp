@@ -15,8 +15,15 @@ int main() {
 		<< std::endl
 		<< "To end the programm close the window." << std::endl << std::endl;
 
-	std::cout << "Set timeouts for reading and writing (writing = sending): ";
+	std::cout << "Set timeouts for reading and writing (writing = sending) in ms: ";
 	std::cin >> timeouts;
+
+	while (timeouts > 1000 || timeouts < 15) {
+		std::cout << "Timeouts need to be between 15 and 1000 ms long: ";
+		std::cin >> timeouts;
+	}
+
+	std::cout << std::endl;
 
 	std::string comPort;
 	std::cout << "Enter the COM port (e.g., COM5): ";
