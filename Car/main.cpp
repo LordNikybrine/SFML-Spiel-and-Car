@@ -8,10 +8,10 @@ int main() {
 	bool xBigger100 = true;
 	bool zBigger100 = true;
 
-	std::cout << "In the following window the color GREEN = xAxis" << std::endl
-		<< "and the color BLUE = zAxis/gas" << std::endl
+	std::cout << "GREEN = xAxis" << std::endl
+		<< "BLUE = zAxis/gas" << std::endl
 		<< std::endl
-		<< "To end the programm press ESC" << std::endl;
+		<< "To end the programm close the window." << std::endl << std::endl;
 
 	std::string comPort;
 	std::cout << "Enter the COM port (e.g., COM5): ";
@@ -61,21 +61,21 @@ int main() {
 
 	SetCommTimeouts(serialHandle, &timeout);
 
-	sf::RectangleShape xAxisBackground(sf::Vector2f(200, 20));  // Width and height of the bar
+	sf::RectangleShape xAxisBackground(sf::Vector2f(200, 20));
 	xAxisBackground.setFillColor(sf::Color::White);
-	xAxisBackground.setPosition(50, 50);  // Adjust the position as needed
+	xAxisBackground.setPosition(50, 50);
 
 	sf::RectangleShape gasBarBackground(sf::Vector2f(199, 20));
 	gasBarBackground.setFillColor(sf::Color::White);
 	gasBarBackground.setPosition(50, 100);
 
-	sf::RectangleShape xAxisBar(sf::Vector2f(200, 20));  // Width and height of the bar
+	sf::RectangleShape xAxisBar(sf::Vector2f(200, 20));
 	xAxisBar.setFillColor(sf::Color::Green);
-	xAxisBar.setPosition(50, 50);  // Adjust the position as needed
+	xAxisBar.setPosition(50, 50);
 
 	sf::RectangleShape gasBar(sf::Vector2f(200, 20));
 	gasBar.setFillColor(sf::Color::Blue);
-	gasBar.setPosition(50, 100);  // Adjust the position as needed
+	gasBar.setPosition(50, 100);
 
 	while (!(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) && window.isOpen()) {
 		sf::Event event;
@@ -129,8 +129,7 @@ int main() {
 			WriteFile(serialHandle, xAxisStr.c_str(), xAxisStr.length(), &bytesWritten, NULL);
 			WriteFile(serialHandle, " ", 1, &bytesWritten, NULL); // Separator
 			WriteFile(serialHandle, gasStr.c_str(), gasStr.length(), &bytesWritten, NULL);
-			WriteFile(serialHandle, "\n", 1, &bytesWritten, NULL); // New line
-			std::this_thread::sleep_for(std::chrono::milliseconds(75));
+			WriteFile(serialHandle, "\n", 1, &bytesWritten, NULL); // neue Zeile
 
 
 			xAxisBar.setSize(sf::Vector2f(xAxis, 20));
