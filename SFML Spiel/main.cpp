@@ -20,6 +20,7 @@ private:
 	void shot();
 	void update();
 	void render();
+	void updateShot();
 
 private:
 
@@ -125,8 +126,8 @@ void Game::check_player_movement() {
 	if (rectangle.getPosition().x < 0) {
 		rectangle.setPosition(0, rectangle.getPosition().y);
 	}
-	if (rectangle.getPosition().x > window.getSize().x -50) {
-		rectangle.setPosition(window.getSize().x -50, rectangle.getPosition().y);
+	if (rectangle.getPosition().x > window.getSize().x - 50) {
+		rectangle.setPosition(window.getSize().x - 50, rectangle.getPosition().y);
 	}
 
 	if (rectangle.getPosition().y < 0) {
@@ -162,13 +163,16 @@ void Game::enemys() {
 	if (enemy.getPosition().y < 0 || enemy.getPosition().y > window.getSize().y) {
 		direction.y = -direction.y;
 	}
+
+	//schießen / schuss updaten
+	updateShot();
 	int elapsedTimeInt = std::chrono::duration_cast<std::chrono::seconds>(currentTime - startTime).count();
 	if (!(elapsedTimeInt % 2) && !shott && elapsedTimeInt != 0) {
 		shott = true;
 		std::cout << " schießen ";
 		shot();
 	}
-	else if(elapsedTimeInt%2){
+	else if (elapsedTimeInt % 2) {
 		shott = false;
 	}
 }
@@ -179,11 +183,20 @@ void Game::shot() {
 	bullet.setRadius(15);
 	bullet.setFillColor(sf::Color::Blue);
 	bullet.setPosition(x, y);
-	bullet.move(direction.x * 2, direction.y * 2);
+
+	x += direction.x * 2;
+	y += direction.y * 2;
+
+	bullet.setPosition(x, y);
 }
 
+void Game::updateShot() {
+
+}
+
+
 // hits zählen
-void Game::check_for_hit(){
+void Game::check_for_hit() {
 	bool isColliding = enemy.getGlobalBounds().intersects(rectangle.getGlobalBounds());
 
 	if (isColliding && !wasColliding) {
