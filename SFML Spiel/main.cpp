@@ -21,6 +21,7 @@ private:
 	void update();
 	void render();
 	void updateShot();
+	bool checkCollision();
 
 private:
 
@@ -191,13 +192,23 @@ void Game::shot() {
 }
 
 void Game::updateShot() {
+	if (bullet.getRadius() > 0) {
+		float bulletSpeed = 2.0;
 
+		bullet.move(direction.x * bulletSpeed, direction.y * bulletSpeed);
+	}
 }
 
+bool Game::checkCollision() {
+	if (enemy.getGlobalBounds().intersects(rectangle.getGlobalBounds()) || bullet.getGlobalBounds().intersects(rectangle.getGlobalBounds())) {
+		return true;
+	}
 
+	return false;
+}
 // hits zählen
-void Game::check_for_hit() {
-	bool isColliding = enemy.getGlobalBounds().intersects(rectangle.getGlobalBounds());
+void Game::check_for_hit(){
+	bool isColliding = checkCollision();
 
 	if (isColliding && !wasColliding) {
 		hits++;
