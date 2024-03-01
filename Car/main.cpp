@@ -8,7 +8,7 @@ int main() {
 	bool xBigger100 = true;
 	bool zBigger100 = true;
 
-	int timeouts = 0;
+	int timeouts = 0, brate = 9600;
 
 	std::cout << "GREEN = xAxis" << std::endl
 		<< "BLUE = zAxis/gas" << std::endl
@@ -23,7 +23,11 @@ int main() {
 		std::cin >> timeouts;
 	}
 
-	std::cout << std::endl;
+	std::cout << "Enter baud rate (enter 1 to set it to 9600 automatically): ";
+	std::cin >> brate;
+	if (brate == 1) {
+		brate = 9600;
+	}
 
 	std::string comPort;
 	std::cout << "Enter the COM port (e.g., COM5): ";
@@ -37,6 +41,7 @@ int main() {
 
 	sf::Joystick::update();
 	while (!sf::Joystick::isConnected(0)) {
+		sf::Joystick::update();
 		std::cout << "Kein Joystick verbunden!" << std::endl << std::endl;
 		std::this_thread::sleep_for(std::chrono::milliseconds(2500));
 	}
@@ -57,7 +62,7 @@ int main() {
 	serialParams.DCBlength = sizeof(serialParams);
 
 	GetCommState(serialHandle, &serialParams);
-	serialParams.BaudRate = 11520;
+	serialParams.BaudRate = 9600;
 	serialParams.ByteSize = 8;
 	serialParams.StopBits = TWOSTOPBITS;
 	serialParams.Parity = NOPARITY;
@@ -136,12 +141,27 @@ int main() {
 
 			std::cout << xAxisStr << ", " << gasStr << std::endl;
 
+
 			// daten senden
 			DWORD bytesWritten;
 			WriteFile(serialHandle, xAxisStr.c_str(), xAxisStr.length(), &bytesWritten, NULL);
 			WriteFile(serialHandle, " ", 1, &bytesWritten, NULL); // Separator
 			WriteFile(serialHandle, gasStr.c_str(), gasStr.length(), &bytesWritten, NULL);
 			WriteFile(serialHandle, "\n", 1, &bytesWritten, NULL); // neue Zeile
+
+			// Empfangsbuffer definieren
+			constexpr int bufferSize = 256;
+			char receiveBuffer[bufferSize];
+
+			// Daten empfangen
+			DWORD bytesRead;
+			ReadFile(serialHandle, receiveBuffer, bufferSize - 1, &bytesRead, nullptr);
+
+			// Nullterminierung des empfangenen Texts für die Verwendung als C-String
+			receiveBuffer[bytesRead] = '\0';
+
+			// Ausgabe auf der Konsole
+			std::cout << "Empfangene Daten: " << receiveBuffer << std::endl;
 
 
 			xAxisBar.setSize(sf::Vector2f(xAxis, 20));
