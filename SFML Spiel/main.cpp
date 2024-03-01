@@ -61,7 +61,8 @@ Game::Game() : window(sf::VideoMode(1680 / 2, 1050 / 2), "Spiel", sf::Style::Def
 
 
 	// Schriftart und spieler Textur laden
-	if (!font.loadFromFile("./assets/Roboto-Regular.ttf")) {
+	if (!font.loadFromFile("./assets/Roboto-Regular.ttf")) {m 
+
 		//! Irgendwie fehler behandeln
 	}
 	hitsText.setFont(font);
@@ -127,8 +128,8 @@ void Game::check_player_movement() {
 	if (rectangle.getPosition().x < 0) {
 		rectangle.setPosition(0, rectangle.getPosition().y);
 	}
-	if (rectangle.getPosition().x > window.getSize().x - 50) {
-		rectangle.setPosition(window.getSize().x - 50, rectangle.getPosition().y);
+	if (rectangle.getPosition().x > window.getSize().x -50) {
+		rectangle.setPosition(window.getSize().x -50, rectangle.getPosition().y);
 	}
 
 	if (rectangle.getPosition().y < 0) {
@@ -173,7 +174,7 @@ void Game::enemys() {
 		std::cout << " schießen ";
 		shot();
 	}
-	else if (elapsedTimeInt % 2) {
+	else if(elapsedTimeInt%2){
 		shott = false;
 	}
 }
